@@ -1,8 +1,7 @@
 /* Pager functionality by Joseph Spinhour */
 #include <curses.h>
 #include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+
 
 int main(int argc, char* argv[])
 {
