@@ -1,3 +1,4 @@
+
 // Listing3c.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
@@ -5,7 +6,7 @@
 #include <stdlib.h>
 
 // void bomb(char* msg);           // Original source causes error
-void bomb(const char* msg);         // Added 'const' to 'char*' to fix error
+ void bomb(const char* msg);         // Added 'const' to 'char*' to fix error
 
 int main(void)
 {
