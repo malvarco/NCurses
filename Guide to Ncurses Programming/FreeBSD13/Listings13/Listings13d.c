@@ -1,3 +1,4 @@
+
 /*
 * Predefined button constants to display information about
 * which mouse button was pressed.
@@ -23,7 +24,7 @@ int main()
         if (ch == KEY_MOUSE)
         {
             clear();
-            nc_getmouse(&mort);
+            getmouse(&mort);
             switch (mort.bstate)
             {
             case BUTTON1_PRESSED:

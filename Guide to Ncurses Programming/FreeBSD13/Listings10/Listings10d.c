@@ -1,5 +1,6 @@
+
 /*
-* NCurses doesn’t scroll a window by default.
+* NCurses doesnâ€™t scroll a window by default.
 * Listing 10-4: scroller.c
 */
 
@@ -10,7 +11,6 @@
 
 int main()
 {
-    errno_t err;            // Added to fix fopen_s()
     FILE* text;
     WINDOW* lister;
     int maxy, maxx, ch;
@@ -33,10 +33,11 @@ int main()
     scrollok(lister, TRUE);         /* Not in original. Added later in book as example. */
 
     /* open the file */
-    // text = fopen(FILENAME, "r"); // Original source
-    err = fopen_s(&text, FILENAME, "r"); // Added/ Modification of previous line to solve WIN10 error
-    // if (text == NULL)  // Original source
-    if (err != NULL)
+     text = fopen(FILENAME, "r");
+
+
+    if (text == NULL)  // Original source
+
     {
         addstr("unable to open file\n");
         refresh();
