@@ -1,20 +1,18 @@
 /*
-My version with some serious changes.
-It shows highlight values all the time and final choice.
-It exits when "Exit" option is chosen.
+My absolute personal version.
+It highlights values with keyboard and mouse.
+It exits when "Exit" option is chosen with both.
 This is very different from original example.
 */
 
 #include <curses.h>
+#include <cstring>
 
 #define WIDTH 30
 #define HEIGHT 10
 
 int startx = 0;
 int starty = 0;
-
-
-
 
 const char* choices[] = {                       /* Added 'const' to 'char* choices' to stop Visual Studio complaints */
                         "Choice 1",
@@ -23,24 +21,26 @@ const char* choices[] = {                       /* Added 'const' to 'char* choic
                         "Choice 4",
                         "Exit",
 };
+
 int n_choices = sizeof(choices) / sizeof(char*);
+
 void print_menu(WINDOW* menu_win, int highlight);
+void report_choice(int mouse_x, int mouse_y, int* p_choice);
 
 int main()
 {
+    int c, choice = 0;
     WINDOW* menu_win;
+    MEVENT event;
+  
     int highlight = 1;
-    int choice = 0;
-    int c;
+    
     bool whileflag = TRUE;
 
     // my fixes * Show highlit variable number
     char  highl_to_str[200];    // *
 
-
-
-
-
+    /* Initialize curses */
     initscr();
     clear();
     noecho();
@@ -53,22 +53,45 @@ int main()
     mvprintw(0, 0, "Use arrow keys to go up and down, Press enter to select a choice");
     refresh();
     print_menu(menu_win, highlight);
+
+    mousemask(ALL_MOUSE_EVENTS, NULL);
     while (whileflag) {
         c = wgetch(menu_win);
-        switch (c) {
+        switch (c)
+        {
+        case KEY_MOUSE:
+            if (nc_getmouse(&event) == OK)
+            {
+                mvprintw(23, 0, "Mouse event detected");
+
+                {   // When the user clicks left mouse button
+                    if (event.bstate & BUTTON1_CLICKED)
+                    {
+                        report_choice(event.x + 1, event.y + 1, &choice);
+                        highlight = choice;
+                        break;
+                    }
+                }
+            }
         case KEY_UP:
+            mvprintw(22, 0, "                  ");
+            mvprintw(23, 0, "                       ");
             if (highlight == 1)
                 highlight = n_choices;
             else
                 --highlight;
             break;
         case KEY_DOWN:
+            mvprintw(22, 0, "                  ");
+            mvprintw(23, 0, "                       ");
             if (highlight == n_choices)
                 highlight = 1;
             else
                 ++highlight;
             break;
         case 10:
+            mvprintw(22, 0, "                  ");
+            mvprintw(23, 0, "                       ");
             choice = highlight;
             break;
         default:
@@ -76,6 +99,7 @@ int main()
             refresh();
             break;
         }
+
         print_menu(menu_win, highlight);
         if (choice == 5) /* User did a choice come out of the inifinite loop */
         {
@@ -95,11 +119,12 @@ int main()
     }
     endwin();
     return 0;
-}
+    }
 
 void print_menu(WINDOW* menu_win, int highlight)
 {
     int x, y, i;
+
     x = 2;
     y = 2;
     box(menu_win, 0, 0);
@@ -117,4 +142,20 @@ void print_menu(WINDOW* menu_win, int highlight)
     wrefresh(menu_win);
 }
 
+/* Report the choice according to mouse position */
+void report_choice(int mouse_x, int mouse_y, int* p_choice)
+{
+    int i, j, choice;
+    i = startx + 2;
+    j = starty + 3;
 
+    for (choice = 0; choice < n_choices; ++choice)
+    {
+        if (mouse_y == j + choice && mouse_x >= i && mouse_x <= i + strlen(choices[choice]))
+        {
+            *p_choice = choice + 1;
+            break;
+            
+        }
+    }
+}
