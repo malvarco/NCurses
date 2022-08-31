@@ -7,7 +7,7 @@
 
 #include <menu.h>
 #include <cstdlib>  // Not in original source. Added for calloc().
-#include <cstring> // Not in original source. Added for strlen(),
+#include <cstring> // Not in original source. Added for strlen().
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 #define CTRLD 4

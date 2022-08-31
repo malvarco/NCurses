@@ -3,6 +3,8 @@
 */
 
 #include <menu.h>
+#include <cstdlib>  // Not in original source. Added for calloc().
+#include <cstring> // Not in original source. Added for strlen().
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 #define CTRLD 4
@@ -58,7 +60,7 @@ int main()
     print_in_middle(my_menu_win, 1, 0, 40, "My Menu", COLOR_PAIR(1));
     mvwaddch(my_menu_win, 2, 0, ACS_LTEE);
     mvwhline(my_menu_win, 2, 1, ACS_HLINE, 38);
-    mvwaddch(LINES - 2, 0, "F1 to exit");
+    mvprintw(LINES - 2, 0, "F1 to exit");
     refresh();
 
     /* Post the menu */
@@ -107,6 +109,6 @@ void print_in_middle(WINDOW* win, int starty, int startx, int width, char* strin
     x = startx + (int)temp;
     wattron(win, color);
     mvwprintw(win, y, x, "%s", string);
-    watrroff(win, color);
+    wattroff(win, color);
     refresh();
 }
