@@ -1,5 +1,5 @@
 /*
-* YTCode02.cpp : Basics of Windows (WINDOW*, newwing, box, refresh, wrefresh, wprintw mvwprintw)
+* YTCode03.cpp : Borders and Environment Options (cbreak, raw, noecho, wborder, box)
 */
 
 #include <curses.h>
