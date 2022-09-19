@@ -1,18 +1,12 @@
-# NCurses examples tested on FreeBSD 13
+# NCurses examples tested on Windows 10
 
 ### Original sources from:
    * https://github.com/cpressey/ncurses_programs
 
-## FreeBSD 13 compiling
+## Windows 10 Visual Studio compiling
 
-For compiling, Ncurses package must be installed.
++ The easiest way is to install PDCurses using the utility Vcpkg (https://vcpkg.io/en/index.html).  
++ It's installed using Powershell or Command Prompt.  
++ Create a project in Visual Studio and add one source to it. It should compile without problems.  
++ To use the exe file, you will need the PDCurses.DLL file in the same directory.
 
-Using the Terminal:  
-`gcc source.c -o binaryfile -lncurses`
-
-### In Codeblocks, go to Menu > Project > Build Options...  
-    * In Linker settings > Link libraries:  
-         + /usr/lib/libncurses.so
-
-### Run using terminal:  
-`./code5`
