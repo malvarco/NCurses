@@ -1,5 +1,5 @@
-#include <ncurses.h>
-#include <stdlib.h>     // Adds system() function. Not in original source.
+#include <curses.h>
+#include <cstdlib>
 
 int main()
 {
@@ -8,7 +8,9 @@ int main()
 	refresh();			/* Print it on to the real screen */
 	def_prog_mode();		/* Save the tty modes		  */
 	endwin();			/* End curses mode temporarily	  */
-	system("/bin/sh");		/* Do whatever you like in cooked mode */
+
+	// system("cmd");		/* Do whatever you like in cooked mode : modified for Windows 10 cmd prompt */
+	   system("pwsh");		/* Do whatever you like in cooked mode : modified for Windows 10 Powershell */
 	reset_prog_mode();		/* Return to the previous tty mode*/
 					/* stored by def_prog_mode() 	  */
 	refresh();			/* Do refresh() to restore the	  */

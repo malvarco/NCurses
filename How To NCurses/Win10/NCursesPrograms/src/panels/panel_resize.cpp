@@ -1,11 +1,12 @@
 #include <stdlib.h>
 #include <string.h>
+#include <string.h>
 
 #include <panel.h>
 
 typedef struct _PANEL_DATA {
 	int x, y, w, h;
-	char label[80];
+	char label[80]; 
 	int label_color;
 	PANEL *next;
 }PANEL_DATA;
@@ -26,7 +27,7 @@ int main()
 	WINDOW *temp_win, *old_win;
 	int ch;
 	int newx, newy, neww, newh;
-	int size = FALSE, domove = FALSE;
+	int size = FALSE, allowMove = FALSE;
 
 	/* Initialize curses */
 	initscr();
@@ -42,7 +43,7 @@ int main()
 	init_pair(4, COLOR_CYAN, COLOR_BLACK);
 
 	init_wins(my_wins, 3);
-
+	
 	/* Attach a panel to each window */ 	/* Order is bottom up */
 	my_panels[0] = new_panel(my_wins[0]); 	/* Push 0, order: stdscr-0 */
 	my_panels[1] = new_panel(my_wins[1]); 	/* Push 1, order: stdscr-0-1 */
@@ -89,14 +90,14 @@ int main()
 				mvprintw(LINES - 4, 0, "Entered Moving: Use Arrow Keys to Move and press <ENTER> to end moving");
 				refresh();
 				attroff(COLOR_PAIR(4));
-				domove = TRUE;
+				allowMove = TRUE;
 				break;
 			case KEY_LEFT:
 				if(size == TRUE)
 				{	--newx;
 					++neww;
 				}
-				if(domove == TRUE)
+				if(allowMove == TRUE)
 					--newx;
 				break;
 			case KEY_RIGHT:
@@ -104,7 +105,7 @@ int main()
 				{	++newx;
 					--neww;
 				}
-				if(domove == TRUE)
+				if(allowMove == TRUE)
 					++newx;
 				break;
 			case KEY_UP:
@@ -112,7 +113,7 @@ int main()
 				{	--newy;
 					++newh;
 				}
-				if(domove == TRUE)
+				if(allowMove == TRUE)
 					--newy;
 				break;
 			case KEY_DOWN:
@@ -120,7 +121,7 @@ int main()
 				{	++newy;
 					--newh;
 				}
-				if(domove == TRUE)
+				if(allowMove == TRUE)
 					++newy;
 				break;
 			case 10:	/* Enter */
@@ -131,22 +132,22 @@ int main()
 				{	old_win = panel_window(stack_top);
 					temp_win = newwin(newh, neww, newy, newx);
 					replace_panel(stack_top, temp_win);
-					win_show(temp_win, top->label, top->label_color);
+					win_show(temp_win, top->label, top->label_color); 
 					delwin(old_win);
 					size = FALSE;
 				}
-				if(domove == TRUE)
+				if(allowMove == TRUE)
 				{	move_panel(stack_top, newy, newx);
-					domove = FALSE;
+					allowMove = FALSE;
 				}
 				break;
-
+			
 		}
 		attron(COLOR_PAIR(4));
 		mvprintw(LINES - 3, 0, "Use 'm' for moving, 'r' for resizing");
 	    	mvprintw(LINES - 2, 0, "Use tab to browse through the windows (F1 to Exit)");
 	    	attroff(COLOR_PAIR(4));
-	        refresh();
+	        refresh();	
 		update_panels();
 		doupdate();
 	}
@@ -163,7 +164,7 @@ void init_wins(WINDOW **wins, int n)
 	x = 10;
 	for(i = 0; i < n; ++i)
 	{	wins[i] = newwin(NLINES, NCOLS, y, x);
-		sprintf(label, "Window Number %d", i + 1);
+		sprintf_s(label, sizeof label, "Window Number %d", i + 1);
 		win_show(wins[i], label, i + 1);
 		y += 3;
 		x += 7;
@@ -176,7 +177,7 @@ void set_user_ptrs(PANEL **panels, int n)
 	WINDOW *win;
 	int x, y, w, h, i;
 	char temp[80];
-
+	
 	ptrs = (PANEL_DATA *)calloc(n, sizeof(PANEL_DATA));
 
 	for(i = 0;i < n; ++i)
@@ -187,8 +188,8 @@ void set_user_ptrs(PANEL **panels, int n)
 		ptrs[i].y = y;
 		ptrs[i].w = w;
 		ptrs[i].h = h;
-		sprintf(temp, "Window Number %d", i + 1);
-		strcpy(ptrs[i].label, temp);
+		sprintf_s(temp, sizeof temp, "Window Number %d", i + 1);
+		strcpy_s(ptrs[i].label, temp);
 		ptrs[i].label_color = i + 1;
 		if(i + 1 == n)
 			ptrs[i].next = panels[0];
@@ -206,10 +207,10 @@ void win_show(WINDOW *win, char *label, int label_color)
 	getmaxyx(win, height, width);
 
 	box(win, 0, 0);
-	mvwaddch(win, 2, 0, ACS_LTEE);
-	mvwhline(win, 2, 1, ACS_HLINE, width - 2);
-	mvwaddch(win, 2, width - 1, ACS_RTEE);
-
+	mvwaddch(win, 2, 0, ACS_LTEE); 
+	mvwhline(win, 2, 1, ACS_HLINE, width - 2); 
+	mvwaddch(win, 2, width - 1, ACS_RTEE); 
+	
 	print_in_middle(win, 1, 0, width, label, COLOR_PAIR(label_color));
 }
 
