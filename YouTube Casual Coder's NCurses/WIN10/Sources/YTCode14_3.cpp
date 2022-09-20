@@ -17,7 +17,7 @@ int main(int argc, char** argv)
 	initscr();
 	noecho();
 	curs_set(0);
-
+	
 	// [4] Start color, and create a color pair
 	if (!has_colors())
 	{
@@ -52,6 +52,7 @@ int main(int argc, char** argv)
 	{
 		menubar.handleTrigger(ch);
 		menubar.draw();
+		
 	}
 	
 	endwin();

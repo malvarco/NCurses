@@ -7,7 +7,7 @@
 class Menu
 {
 public:
-	Menu(std::string text, char trigger, std::string *items, int num_item)
+	Menu(std::string text, char trigger, std::string *items, int num_items)
 	{
 		this->text = text;
 		this->trigger = trigger;
@@ -37,7 +37,7 @@ public:
 	{
 		selected_item--;
 		if (selected_item < 0)
-			selected_item = num_items - 1;
+			selected_item = num_items -1;
 	}
 
 };
@@ -54,15 +54,17 @@ public:
 
 		// [6] Initialize menuwin (keypad)
 		int yMax, xMax, yBeg, xBeg;
+		
 		getmaxyx(win, yMax, xMax);
 		getbegyx(win, yBeg, xBeg);
-		menuwin = newwin(yMax-2,xMax-2,yBeg +1,xBeg+1);
+		
+		menuwin = newwin(yMax - 2, xMax - 2, yBeg + 1, xBeg + 1);
 		keypad(menuwin, true);
 		wrefresh(menuwin);
 
 		// int current_pos = 2; // Original source
-		size_t current_pos = 2; 
-		
+		size_t current_pos = 2;
+
 		for (int i = 0; i < num_menus; i++)
 		{
 			this->menus[i].start_x = current_pos;
@@ -94,10 +96,13 @@ void draw()
 // [8] drawMenu(menu_index)
 void drawMenu(Menu menu, bool is_selected)
 {
+	
+
 	int start_x = menu.start_x;
 	std::string text = menu.text;
 	if (is_selected)
-		wattron(win, A_STANDOUT);
+			wattron(win, A_STANDOUT);
+		
 	mvwprintw(win, 0, start_x, text.c_str());
 	wattroff(win, A_STANDOUT);
 	wrefresh(win);
@@ -133,8 +138,10 @@ void drawMenuItems(Menu menu)
 	for (int i = 0; i < menu.num_items; i++)
 	{
 		mvwprintw(menuwin, i, 0, menu.items[i].c_str());
+	
 		if (menu.selected_item == i)
 		{
+
 			// if selected, change to color pair 1
 			mvwchgat(menuwin, i, 0, xMax, A_NORMAL, 1, NULL);
 		}
@@ -143,6 +150,8 @@ void drawMenuItems(Menu menu)
 			// not selected,
 			mvwchgat(menuwin, i, 0, xMax, A_STANDOUT, 0, NULL);
 		}
+		
+		
 	}
 }
 
@@ -165,6 +174,7 @@ WINDOW* win;
 Menu* menus;
 int num_menus;
 int selected_menu;
+
 };
 
 #endif // !_MENU_H_
