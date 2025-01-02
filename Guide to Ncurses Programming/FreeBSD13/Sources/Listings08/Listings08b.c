@@ -27,13 +27,13 @@ int main(void)
     }
     /* --- Original in source ---
     mvwaddstr(help, 6, 32, "Help menu Screen");
-    mvwaddstr(help, 9, 28, "Press the - key to quit");
+    mvwaddstr(help, 9, 28, "Press the ~ key to quit");
     mvwaddstr(help, 12, 28, "Press ENTER to go back");
     */
 
     // Replacement of lines above added later in book to show window size
     mvwaddstr(help, 1, 7, "Help menu Screen");
-    mvwaddstr(help, 5, 3, "Press the - key to quit");
+    mvwaddstr(help, 5, 3, "Press the ~ key to quit");
     mvwaddstr(help, 8, 4, "Press ENTER to go back");
 
     /* now start the program loop */
